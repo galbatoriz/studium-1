@@ -4,7 +4,7 @@ public class Auto {
 
     private Reifen[] reifen;
     private Motor motor;
-    private Kofferraum kofferrraum;
+    private Kofferraum kofferraum;
     private int geschwindigkeit;
     private int sitze;
     private int tueren;
@@ -25,12 +25,12 @@ public class Auto {
         this.motor = motor;
     }
 
-    public Kofferraum getKofferrraum() {
-        return kofferrraum;
+    public Kofferraum getKofferraum() {
+        return kofferraum;
     }
 
-    public void setKofferrraum(Kofferraum kofferrraum) {
-        this.kofferrraum = kofferrraum;
+    public void setKofferraum(Kofferraum kofferraum) {
+        this.kofferraum = kofferraum;
     }
 
     public int getGeschwindigkeit() {

@@ -25,8 +25,8 @@ public class AutoTest {
     @Test
     void testGetKofferrraum() {
         kofferraum = new Kofferraum(10);
-        auto.setKofferrraum(kofferraum);
-        assertEquals(10, auto.getKofferrraum().getVolumen());
+        auto.setKofferraum(kofferraum);
+        assertEquals(10, auto.getKofferraum().getVolumen());
     }
 
     @Test
@@ -45,7 +45,6 @@ public class AutoTest {
         assertTrue(auto.getReifen()[1].isPlatt());
         assertEquals(10, auto.getReifen()[0].getProfilgüte());
         assertEquals(5, auto.getReifen()[1].getProfilgüte());
-
     }
 
     @Test
