@@ -1,4 +1,4 @@
-package UB09.Birk.Aufgabe3;
+package UB09.Aufgabe3V2;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
