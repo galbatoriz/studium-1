@@ -8,12 +8,12 @@ public class Account {
     /**
      * Konstruktor zum Erstellen eines Kontos mit Initialwert und Owner
      *
-     * @param name     Owner dieses Kontos
-     * @param _balance Initialwert des Kontos
+     * @param name    Owner dieses Kontos
+     * @param balance Initialwert des Kontos
      */
-    public Account(String name, double _balance) {
+    public Account(String name, double balance) {
         owner = name;
-        balance = _balance;
+        this.balance = balance;
     }
 
     /**

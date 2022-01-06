@@ -5,9 +5,13 @@ public class Auto {
     private Reifen[] reifen;
     private Motor motor;
     private Kofferraum kofferraum;
-    private int geschwindigkeit;
+    private double geschwindigkeit;
     private int sitze;
     private int tueren;
+
+    // empty constructor
+    public Auto() {
+    }
 
     public Reifen[] getReifen() {
         return reifen;
@@ -33,11 +37,11 @@ public class Auto {
         this.kofferraum = kofferraum;
     }
 
-    public int getGeschwindigkeit() {
+    public double getGeschwindigkeit() {
         return geschwindigkeit;
     }
 
-    public void setGeschwindigkeit(int geschwindigkeit) {
+    public void setGeschwindigkeit(double geschwindigkeit) {
         this.geschwindigkeit = geschwindigkeit;
     }
 
