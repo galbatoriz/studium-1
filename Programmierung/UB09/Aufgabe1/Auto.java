@@ -8,6 +8,9 @@ public class Auto {
     private double geschwindigkeit;
     private int sitze;
     private int tueren;
+    
+    //empty constructor 
+    public Auto() {}
 
     public Reifen[] getReifen() {
         return reifen;
