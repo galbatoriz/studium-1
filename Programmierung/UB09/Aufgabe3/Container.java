@@ -4,12 +4,12 @@ public class Container {
 
     private ContainerElement start;
     private ContainerElement iterNext;
-    private int maxWeight;
+    // private int maxWeight;
 
     public Container(int maxWeight) {
         start = null;
         iterNext = null;
-        this.maxWeight = maxWeight;
+        // this.maxWeight = maxWeight;
     }
 
     public int size() {

@@ -9,7 +9,6 @@ public class Auto {
     private int sitze;
     private int tueren;
 
-    // empty constructor
     public Auto() {
     }
 

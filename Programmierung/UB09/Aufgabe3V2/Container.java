@@ -3,10 +3,10 @@ package UB09.Aufgabe3V2;
 public class Container {
 
     private int maxWeight;
-    private int size;                   // Number of Packets in Conatiner
+    private int size; // Number of Packets in Conatiner
     private int weight;
 
-    ContainerElement packageList;       //	Liste von package-objekten
+    ContainerElement packageList; // Liste von package-objekten
 
     public Container(int maxWeight) {
         this.maxWeight = maxWeight;
@@ -16,14 +16,13 @@ public class Container {
 
     }
 
-
     // Getter
 
-    public int size(){
+    public int size() {
         return size;
     }
 
-    public int getWeight(){
+    public int getWeight() {
         return weight;
     }
 
@@ -31,16 +30,14 @@ public class Container {
         return maxWeight;
     }
 
-
-
     // Operation
 
-    public void clear(){
+    public void clear() {
         size = 0;
         weight = 0;
     }
 
-    public boolean add(Package value){
+    public boolean add(Package value) {
         if (weight + value.getWeight() > maxWeight) {
             return false;
         }
@@ -49,7 +46,7 @@ public class Container {
         packageList = new ContainerElement(packageList, value);
         return true;
     }
-    
+
     public void setMaxWeight(int maxWeight) {
         this.maxWeight = maxWeight;
     }
@@ -58,25 +55,18 @@ public class Container {
         for (Package val : values) {
             add(val);
         }
-  
+
     }
 
     // public void setWeight(int weight) {
-    //     this.weight = weight;
+    // this.weight = weight;
     // }
 
-
-
     // public int getSize() {
-    //     return size;
+    // return size;
     // }
 
     // public void setSize(int size) {
-    //     this.size = size;
+    // this.size = size;
     // }
-
-
-
-    
-    
 }
