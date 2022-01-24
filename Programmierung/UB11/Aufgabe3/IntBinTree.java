@@ -270,12 +270,19 @@ public class IntBinTree {
         if (isEmpty()) {
             return true;
         }
-        if (getValue() > getLeft().getValue() && getValue() < getRight().getValue()) {
-            getLeft().isSearchTree();
-            getRight().isSearchTree();
-            return true;
-        } else {
+        if (getLeft() != null && getValue() < getLeft().getValue()) {
             return false;
         }
+        if (getRight() != null && getValue() > getRight().getValue()) {
+            return false;
+        }
+        if (!getLeft().isSearchTree()) {
+            return false;
+        }
+        ;
+        if (!getRight().isSearchTree()) {
+            return false;
+        }
+        return true;
     }
 }

@@ -2,7 +2,7 @@ package UB11.Aufgabe3;
 
 public class Main {
     public static void main(String[] args) {
-        Integer[] arr1 = new Integer[] { 3, 2, 4, 5 };
+        Integer[] arr1 = new Integer[] { 3, 2, 4, 1 };
         IntBinTree tree1 = IntBinTree.createTree(arr1);
         System.out.println(tree1.isSearchTree());
     }
