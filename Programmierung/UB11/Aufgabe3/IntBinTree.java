@@ -1,288 +1,125 @@
 package UB11.Aufgabe3;
 
 public class IntBinTree {
-    private final Node root;
 
-    // constructors
-    public IntBinTree() {
-        root = null;
-    }
+	private IntNode root;
 
-    public IntBinTree(Integer content) {
-        this.root = new Node(content);
-    }
+	public IntBinTree() {
+	}
 
-    public IntBinTree(IntBinTree left, Integer content, IntBinTree right) {
-        if (content == null) {
-            root = null;
-        } else {
-            root = new Node(content);
-            root.setLeft(left);
-            root.setRight(right);
-        }
-    }
+	public IntBinTree(Integer content) {
+		this.root = new IntNode(content);
+	}
 
-    // private IntBinTree(Node root) {
-    // this.root = root;
-    // }
+	public IntBinTree(IntBinTree left, Integer content, IntBinTree right) {
+		root = new IntNode(content);
+		if (left != null) {
+			root.setLeft(left.root);
+		}
+		if (right != null) {
+			root.setRight(right.root);
+		}
+	}
 
-    // a)
-    public boolean isEmpty() {
-        return root == null;
-    }
+	public boolean isAVLTree() {
+		if (isEmpty()) {
+			return true;
+		}
 
-    public Integer getValue() {
-        if (isEmpty()) {
-            return null; // error
-        }
-        return root.getContent();
-    }
+		if (!isSearchTree()) {
+			return false;
+		}
 
-    public IntBinTree getLeft() {
-        if (isEmpty()) {
-            return null; // error
-        }
-        return root.getLeft();
-    }
+		int balance = getRight().getHeight() - getLeft().getHeight();
+		if (balance > 1 || balance < -1) {
+			return false;
+		}
 
-    public IntBinTree getRight() {
-        if (isEmpty()) {
-            return null; // error
-        }
-        return root.getRight();
-    }
+		if (getLeft().getValue() != null) {
+			return getLeft().isAVLTree();
+		}
 
-    public void setLeft(IntBinTree tree) {
-        root.setLeft(tree);
-    }
+		if (getRight().getValue() != null) {
+			return getRight().isAVLTree();
+		}
 
-    public void setRight(IntBinTree tree) {
-        root.setRight(tree);
-    }
+		return true;
+	}
 
-    // b)
-    public Integer[] inorder() {
-        if (isEmpty()) {
-            return null;
-        }
-        Integer[] leftArr = new Integer[0];
-        Integer[] rightArr = new Integer[0];
-        if (getLeft() != null) {
-            leftArr = getLeft().inorder();
-        }
-        if (getRight() != null) {
-            rightArr = getRight().inorder();
-        }
-        Integer[] result = new Integer[leftArr.length + 1 + rightArr.length];
-        for (int i = 0; i < leftArr.length; i++) {
-            result[i] = leftArr[i];
-        }
-        result[leftArr.length] = getValue();
-        for (int i = 0; i < rightArr.length; i++) {
-            result[leftArr.length + 1 + i] = rightArr[i];
-        }
-        return result;
-    }
+	public boolean isSearchTree() {
+		if (isEmpty()) {
+			return true;
+		}
 
-    // c)
-    private int fillLastLine(Integer[] values, int cursor) {
-        int newcur = cursor;
-        if (getLeft() != null) {
-            newcur = getLeft().fillLastLine(values, cursor);
-            if (newcur < values.length) {
-                newcur = getRight().fillLastLine(values, newcur);
-            }
-        } else {
-            setLeft(new IntBinTree(values[newcur++]));
-            if (newcur < values.length) {
-                setRight(new IntBinTree(values[newcur++]));
-            }
-        }
-        return newcur;
-    }
+		if (getLeft().getValue() != null) {
+			if (getLeft().getValue() > getValue()) {
+				return false;
+			}
+			if (!getLeft().isSearchTree()) {
+				return false;
+			}
+		}
 
-    public static IntBinTree createTree(Integer[] values) {
-        if (values.length == 0) {
-            return null;
-        }
-        IntBinTree res = new IntBinTree(values[0]);
-        int cursor = 1;
-        while (cursor < values.length) {
-            cursor = res.fillLastLine(values, cursor);
-        }
-        return res;
-    }
+		if (getRight().getValue() != null) {
+			if (getRight().getValue() < getValue()) {
+				return false;
+			}
+			if (!getRight().isSearchTree()) {
+				return false;
+			}
+		}
 
-    // d)
-    public int countNodes() {
-        if (isEmpty()) {
-            return 0;
-        }
-        int count = 1;
-        if (getLeft() != null) {
-            count += getLeft().countNodes();
-        }
-        if (getRight() != null) {
-            count += getRight().countNodes();
-        }
-        return count;
-    }
+		return true;
+	}
 
-    public int countInnerNodes() {
-        if (isEmpty()) {
-            return 0;
-        }
-        int count = 1;
-        boolean hasChildren = false;
-        if (getLeft() != null) {
-            count += getLeft().countInnerNodes();
-            hasChildren = true;
-        }
-        if (getRight() != null) {
-            count += getRight().countInnerNodes();
-            hasChildren = true;
-        }
-        return hasChildren ? count : 0;
-    }
+	private IntBinTree(IntNode root) {
+		this.root = root;
+	}
 
-    public int countLeaves() {
-        if (isEmpty()) {
-            return 0;
-        }
-        int count = 0;
-        boolean hasChildren = false;
-        if (getLeft() != null) {
-            count += getLeft().countLeaves();
-            hasChildren = true;
-        }
-        if (getRight() != null) {
-            count += getRight().countLeaves();
-            hasChildren = true;
-        }
-        return hasChildren ? count : 1;
-    }
+	public boolean isEmpty() {
+		return root == null;
+	}
 
-    public int getHeight() {
-        if (isEmpty()) {
-            return 0;
-        }
-        int height = 0;
-        if (getLeft() != null) {
-            height = getLeft().getHeight();
-        }
-        if (getRight() != null) {
-            int rightHeight = getRight().getHeight();
-            if (rightHeight > height) {
-                height = rightHeight;
-            }
-        }
-        return height + 1;
-    }
+	public Integer getValue() {
+		if (isEmpty()) {
+			return null; // error
+		}
+		return root.getContent();
+	}
 
-    // e)
-    public boolean isPerfect() {
-        if (isEmpty()) {
-            return true;
-        }
-        int height = getHeight();
-        int nodes = countNodes();
-        return (Math.pow(2, height) == (nodes + 1));
-    }
+	public IntBinTree getLeft() {
+		if (isEmpty()) {
+			return null; // error
+		}
+		return new IntBinTree(root.getLeft());
+	}
 
-    public boolean isFull() {
-        if (isEmpty()) {
-            return false;
-        }
-        if (getLeft() != null) {
-            if (getRight() != null) {
-                return (getLeft().isFull() && getRight().isFull());
-            } else {
-                return false;
-            }
-        } else {
-            return (getRight() == null);
-        }
-    }
+	public void setLeft(IntBinTree tree) {
+		if (isEmpty()) {
+			return; // error
+		}
+		root.setLeft(tree.root);
+	}
 
-    private int[] checkComplete() {
-        if (getLeft() != null) {
-            if (getRight() != null) {
-                int[] minMaxLeft = getLeft().checkComplete();
-                if (minMaxLeft[1] == 0) {
-                    return new int[] { 0, 0 }; // links gescheitert
-                }
-                int[] minMaxRight = getRight().checkComplete();
-                if (minMaxRight[1] == 0) {
-                    return new int[] { 0, 0 }; // rechts gescheitert
-                }
-                int diffMaxLeftMinRight = minMaxLeft[1] - minMaxRight[0];
-                if (diffMaxLeftMinRight == 0) {
-                    if (minMaxLeft[0] < minMaxRight[1])
-                        return new int[] { 0, 0 }; // gescheitert: Delle links
-                    else
-                        return new int[] { minMaxLeft[0] + 1, minMaxLeft[1] + 1 }; // gut: alle gleich
-                } else {
-                    if (diffMaxLeftMinRight > 1) {
-                        return new int[] { 0, 0 }; // gescheitert: Hoehendifferenz zu gross
-                    }
-                    if (minMaxLeft[0] == minMaxLeft[1]) {
-                        // Stufe nicht im linken Subtree
-                        // Stufe hat maximal die Hoehe 1 und ist damit okay
-                        return new int[] { minMaxRight[0] + 1, minMaxLeft[1] + 1 }; // gut: stufe zwischen Minimum
-                                                                                    // rechts und Maximum links
-                    } else {
-                        // Stufe im linken Subtree gefunden, d.h. minLeft == minRight
-                        // es darf weder im Uebergang zum rechten Subtree, noch im rechten Subtree
-                        // selbst eine Stufe geben
-                        if (minMaxRight[0] != minMaxRight[1]) {
-                            return new int[] { 0, 0 }; // gescheitert: auch Stufe rechts
-                        } else {
-                            return new int[] { minMaxLeft[0] + 1, minMaxLeft[1] + 1 }; // gut: gesamter Baum wie linker
-                        } // Baum
-                    }
-                }
-            } else { // rechts: min = max = 0
-                int[] minMaxLeft = getLeft().checkComplete();
-                if (minMaxLeft[1] == 1) { // in diesem Fall maximal zulaessige linke tiefe: 1
-                    return new int[] { 1, 2 };
-                } else { // gescheitert oder zu tief
-                    return new int[] { 0, 0 };
-                }
-            }
-        } else {
-            if (getRight() == null) {
-                return new int[] { 1, 1 }; // Blatt
-            } else { // gescheitert: rechts duerfen nur Kinder sein, wenn auch links Kinder sind
-                return new int[] { 0, 0 };
-            }
-        }
-    }
+	public IntBinTree getRight() {
+		if (this.isEmpty()) {
+			return null; // error
+		}
+		return new IntBinTree(root.getRight());
+	}
 
-    public boolean isComplete() {
-        if (isEmpty()) {
-            return true;
-        }
-        int[] minMax = this.checkComplete();
-        return (minMax[1] != 0);
-    }
+	public void setRight(IntBinTree tree) {
+		if (this.isEmpty()) {
+			return; // error
+		}
+		this.root.setRight(tree.root);
+	}
 
-    public boolean isSearchTree() {
-        if (isEmpty()) {
-            return true;
-        }
-        if (getLeft() != null && getValue() < getLeft().getValue()) {
-            return false;
-        }
-        if (getRight() != null && getValue() > getRight().getValue()) {
-            return false;
-        }
-        if (!getLeft().isSearchTree()) {
-            return false;
-        }
-        ;
-        if (!getRight().isSearchTree()) {
-            return false;
-        }
-        return true;
-    }
+	public int getHeight() {
+		if (isEmpty()) {
+			return 0;
+		}
+		return 1 + Math.max(getLeft().getHeight(), getRight().getHeight());
+	}
+
 }

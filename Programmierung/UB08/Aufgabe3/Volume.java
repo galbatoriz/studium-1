@@ -3,11 +3,12 @@ package UB08.Aufgabe3;
 import java.util.Scanner;
 
 public class Volume {
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
         // Körper initialisieren
-        Cube cube = new Cube(inputcubelenght());
-        Sphere sphere = new Sphere(inputsphereradius());
+        Cube cube = new Cube(inputcubelenght(input));
+        Sphere sphere = new Sphere(inputsphereradius(input));
 
         // Volumen und Differnzvolumen ausgeben
         System.out.println("Das Volumen des Würfels beträgt: " + cube.getVolume());
@@ -16,7 +17,7 @@ public class Volume {
         System.out.println("Gebe nun einen Inkrement Wert ein, um die Volumina anzugleichen");
 
         // Inkrement Wert erfragen
-        double increment = inputincrement();
+        double increment = inputincrement(input);
         int step = 0;
 
         // Volumen angleichen
@@ -44,50 +45,48 @@ public class Volume {
             System.out.println("Die Oberflächeder Kugel beträgt: " + sphere.getSurfaceArea());
         }
 
+        input.close();
     }
 
     // User Input Checker
-    public static double inputcubelenght() {
-        Scanner sca = new Scanner(System.in);
+    public static double inputcubelenght(Scanner input) {
         double edgelenght;
         do {
             System.out.println("Gebe die Kantenlänge eines Würfels ein:");
-            while (!sca.hasNextDouble()) {
+            while (!input.hasNextDouble() && !input.hasNextInt()) {
                 System.out.println(
                         "Das ist keine Nummer!\nDu kannst eine postive nicht-ganze Zahl eingeben (z.B.: 10,5)\nGebe die Kantenlänge eines Würfels ein:");
-                sca.next();
+                input.next();
             }
-            edgelenght = sca.nextDouble();
+            edgelenght = input.hasNextDouble() ? input.nextDouble() : input.nextInt();
         } while (edgelenght <= 0);
         return edgelenght;
     }
 
-    public static double inputsphereradius() {
-        Scanner scr = new Scanner(System.in);
+    public static double inputsphereradius(Scanner input) {
         double radius;
         do {
             System.out.println("Gebe den Radius einer Kugel ein:");
-            while (!scr.hasNextDouble()) { // for (;!scr.hasNextDouble();){}
+            while (!input.hasNextDouble() && !input.hasNextInt()) { // for (;!scr.hasNextDouble();){}
                 System.out.println(
                         "Das ist keine Zahl!\nDu kannst eine postive nicht-ganze Zahl eingeben (z.B.: 10,5)\nGebe den Radius einer Kugel ein:");
-                scr.next();
+                input.next();
             }
-            radius = scr.nextDouble();
+            radius = input.hasNextDouble() ? input.nextDouble() : input.nextInt();
         } while (radius <= 0);
         return radius;
     }
 
-    public static double inputincrement() {
-        Scanner sci = new Scanner(System.in);
+    public static double inputincrement(Scanner input) {
         double increment;
         do {
             System.out.println("Gebe einen Inkrement Wert ein:");
-            while (!sci.hasNextDouble()) {
+            while (!input.hasNextDouble() && !input.hasNextInt()) {
                 System.out.println(
                         "Das ist keine Zahl!\nDu kannst eine postive nicht-ganze Zahl eingeben (z.B.: 10,5)\nGebe einen Inkrement Wert ein:");
-                sci.next();
+                input.next();
             }
-            increment = sci.nextDouble();
+            increment = input.hasNextDouble() ? input.nextDouble() : input.nextInt();
         } while (increment <= 0);
         return increment;
     }
