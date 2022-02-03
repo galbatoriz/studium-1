@@ -22,6 +22,7 @@ public class Aufgabe2 {
         return decreasing + increasing;
     }
 
+    // FALSCH
     public static String symetricDigitSequenceRec(int max) {
         String result = String.valueOf(max);
         if (result.length() > 0) {
