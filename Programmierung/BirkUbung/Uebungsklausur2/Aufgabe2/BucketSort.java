@@ -1,4 +1,4 @@
-package Übungsklausur2.Aufgabe2;
+package BirkUbung.Uebungsklausur2.Aufgabe2;
 
 import java.util.ArrayList;
 

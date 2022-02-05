@@ -1,4 +1,4 @@
-package Übungsklausur2.Aufgabe1;
+package BirkUbung.Uebungsklausur2.Aufgabe1;
 
 import java.util.LinkedList;
 
