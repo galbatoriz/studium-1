@@ -5,41 +5,7 @@ import java.util.LinkedList;
 public class Grades {
 
     public static LinkedList<String> transfer(String[][] vips, String[][] studip) {
-        int zeilen = vips.length;
-        double stupidgrade;
-        int intgrade;
-        String grade;
-        String value;
-        LinkedList<String> list = new LinkedList<String>();
-        for (int z = 2; z < zeilen; z++) {
-            stupidgrade = Double.parseDouble(vips[z][3].replace(",", "."));
-            stupidgrade = stupidgrade * 100;
-            intgrade = (int) stupidgrade;
-            grade = String.valueOf(intgrade);
         
-        for (int i = 2; i < zeilen; i++) {
-            for (int j = 1; j < studip.length; j++) {
-                if (vips[i][0] == studip[j][2] && vips[i][1] == studip[j][1] && vips[i][2] == studip[j][0]) {
-                    if (j == 2) {
-                        list.add("Test");
-                    }else {
-                        value = studip[i][j];
-                        list.add(value);
-                    }
-
-                } 
-            }
-        }
-    }
-
-        // for (int i = 0; i < studip.length; i++) {
-        //     for (int j = 0; j < studip[0].length; j++) {
-        //         value = studip[i][j];
-        //         list.add(value);
-        //     }
-        // }
-
-        return list;
     }
 
     public static void main(String[] args) {
