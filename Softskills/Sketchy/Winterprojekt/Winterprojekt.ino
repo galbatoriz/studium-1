@@ -28,7 +28,7 @@ CRGB leds[NUM_LEDS];
 
 // ========================  hier deinen API-Key eintragen!!!  ============================================================================================================
 const String city = "Oldenburg";
-const String api_key = "";    // dein Open-Weather-Map-API-Schluessel, kostenlos beziehbar ueber https://openweathermap.org/
+const String api_key = "847722fd37cb0017199ac3a1bb9ac43f";    // dein Open-Weather-Map-API-Schluessel, kostenlos beziehbar ueber https://openweathermap.org/
 // ========================================================================================================================================================================
 
 int weatherID = 0;

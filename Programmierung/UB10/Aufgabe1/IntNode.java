@@ -1,4 +1,4 @@
-package UB10Birk.Aufgabe1;
+package UB10.Aufgabe1;
 
 public class IntNode {
 
@@ -36,18 +36,16 @@ public class IntNode {
         this.right = right;
     }
 
-
-
     public IntNode insertLevelOrder(Integer[] arr, IntNode root, int i) {
-        
+
         if (i < arr.length) {
             IntNode temp = new IntNode(arr[i]);
             root = temp;
-            
+
             root.left = insertLevelOrder(arr, root.left, 2 * i + 1);
-                                                
+
             root.right = insertLevelOrder(arr, root.right, 2 * i + 2);
-        }                                        
+        }
         return root;
-    }   
+    }
 }
