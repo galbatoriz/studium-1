@@ -1,4 +1,4 @@
-package UB10Birk.Aufgabe1;
+package UB11Birk.Aufgabe3;
 
 import java.util.Queue;
 
@@ -325,6 +325,86 @@ public class IntBinTree {
             else if (temp.getLeft() == null || temp.getRight() == null)
                 return false;
         }
+        return true;
+    }
+
+    ///////////// Aufgabe 3 UB 11 /////////////
+
+    public boolean isSearchTree() {
+        if (!privateisSearchTree(this.root)) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean privateisSearchTree(IntNode node) {
+        if (node == null) {
+            return true;
+        }
+
+        // False if left > root
+        if (node.getLeft() != null && root.getLeft().getContent() > node.getContent()) {
+            return false;
+        }
+
+        // False if right < root
+        if (node.getRight() != null && node.getRight().getContent() < node.getContent()) {
+            return false;    
+        }
+        
+        // False if left or right is not a SearchTree
+        if (!privateisSearchTree(node.getLeft()) || !privateisSearchTree(node.getRight())) {
+            return false;
+        }
+        
+        // All passed
+        return true;
+    }
+    
+    public boolean isAVLTree() {
+        
+        // Leere Bäume sind AVL Bäume
+        if (root == null) {
+            return true;    
+        }
+
+        // AVL Bäume sind BST
+        if (!privateisAVLTree(this.root)) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean privateisAVLTree(IntNode node) {
+        if (node == null) {
+            return true;
+        }
+
+        // Falsch falls das Delta nicht -1, 0, oder 1 ist
+        if (node.getRightHeight(node) - node.getLeftHeight(node) >= 2 || node.getRightHeight(node) - node.getLeftHeight(node) <= -2 ) {
+            return false;    
+        }
+
+        // Rekusion
+        if (node.getLeft() == null && node.getRight() == null) {
+            return true;
+        }
+
+        if (node.getLeft() == null && node.getRight() != null) {
+            if (!privateisAVLTree(node.getRight())) {
+                return false;    
+            }    
+        }
+        if ((node.getLeft() != null && node.getRight() == null)) {
+            if (!privateisAVLTree(node.getLeft())) {
+                return false;    
+            }
+        }
+        if (!privateisAVLTree(node.getLeft()) || !privateisAVLTree(node.getRight())) {
+            return false;    
+        }
+
+        // All passed
         return true;
     }
 }

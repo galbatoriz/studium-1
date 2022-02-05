@@ -1,4 +1,4 @@
-package UB10Birk.Aufgabe1;
+package UB11Birk.Aufgabe3;
 
 import static org.junit.Assert.assertSame;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -86,7 +86,30 @@ public class IntBinTreeTest {
     IntBinTree treec14 = IntBinTree.createTree(values14);
     IntBinTree treec15 = IntBinTree.createTree(values15);
     IntBinTree treec16 = IntBinTree.createTree(values16);
-       
+
+    // Binary Search Trees
+    // BTS1
+    IntBinTree bts4 = new IntBinTree(4);
+    IntBinTree bts7 = new IntBinTree(7);
+    IntBinTree bts1 = new IntBinTree(1);
+    IntBinTree bts13 = new IntBinTree(13);
+    IntBinTree bts6 = new IntBinTree(bts4, 6, bts7);
+    IntBinTree bts3 = new IntBinTree(bts1, 3, bts6);
+    IntBinTree bts14 = new IntBinTree(bts13, 14, null);
+    IntBinTree bts10 = new IntBinTree(null, 14, bts14);
+    IntBinTree binarysearchtree1 = new IntBinTree(bts3, 8, bts10);
+
+    // BTS2
+    IntBinTree bta4 = new IntBinTree(4);
+    IntBinTree bta7 = new IntBinTree(7);
+    IntBinTree bta1 = new IntBinTree(1);
+    IntBinTree bta13 = new IntBinTree(13);
+    IntBinTree bta6 = new IntBinTree(bta4, 6, bta7);
+    IntBinTree bta3 = new IntBinTree(bta1, 3, bta6);
+    IntBinTree bta14 = new IntBinTree(null, 14, bta13);
+    IntBinTree bta10 = new IntBinTree(null, 14, bta14);
+    IntBinTree binarysearchtree2 = new IntBinTree(bta3, 8, bta10);
+
     @Test
     @DisplayName("Count all inner nodes from given tree")
     void testCountInnerNodes() {
@@ -249,5 +272,34 @@ public class IntBinTreeTest {
         assertEquals(false, treec14.isPerfect());
         assertEquals(true, treec15.isPerfect());
         assertEquals(false, treec16.isPerfect());
+    }
+
+    ///////////// Aufgabe 3 UB 11 /////////////
+
+    @Test
+    void isSearchTree() {
+        assertEquals(false, tree1.isSearchTree());
+        assertEquals(false, tree2.isSearchTree());
+        assertEquals(false, tree3.isSearchTree());
+        assertEquals(true, tree4.isSearchTree());
+        assertEquals(false, tree5.isSearchTree());
+        assertEquals(false, tree6.isSearchTree());
+        assertEquals(false, tree7.isSearchTree());
+        assertEquals(false, tree8.isSearchTree());
+        assertEquals(true, tree9.isSearchTree());
+        assertEquals(false, treec8.isSearchTree());
+        assertEquals(false, treec14.isSearchTree());
+        assertEquals(false, treec15.isSearchTree());
+        assertEquals(false, treec16.isSearchTree());
+
+        // BST
+        assertEquals(true, binarysearchtree1.isSearchTree());
+        assertEquals(false, binarysearchtree2.isSearchTree());
+    }
+
+    @Test
+    void isAVLTree() {
+        assertEquals(true, binarysearchtree1.isAVLTree());
+        assertEquals(false, binarysearchtree2.isAVLTree());
     }
 }
