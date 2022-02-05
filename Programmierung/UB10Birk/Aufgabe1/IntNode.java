@@ -1,4 +1,4 @@
-package UB10.Aufgabe1;
+package UB10Birk.Aufgabe1;
 
 public class IntNode {
 

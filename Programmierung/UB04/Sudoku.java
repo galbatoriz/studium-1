@@ -15,8 +15,8 @@ public class Sudoku {
 
         HashSet<String> discovered = new HashSet<String>();
         long startTime = System.nanoTime();
-        for (int r = 0; r < 9; r++) { // loop rows
-            for (int c = 0; c < 9; c++) { // loop columns
+        for (int r = 0; r < 9; r++) { // loop rows = zeile // soduko.lenght
+            for (int c = 0; c < 9; c++) { // loop columns = spalte // soduko[0].lneght
                 int current_value = sudoku[r][c];
                 if (current_value != 0) { // ignore empty fields
                     if (!discovered.add("Duplicate number <" + current_value + "> in row " + r)) { // HashSet can not

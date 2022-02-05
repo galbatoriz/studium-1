@@ -1,4 +1,4 @@
-package UB10.Aufgabe2;
+package UB10Birk.Aufgabe2;
 
 public class TestTrie {
 
