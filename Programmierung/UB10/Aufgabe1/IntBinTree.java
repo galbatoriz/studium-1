@@ -1,315 +1,268 @@
 package UB10.Aufgabe1;
 
-import java.util.Queue;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 public class IntBinTree {
+    private final Node root;
 
-    public IntNode root;
-
+    // constructors
     public IntBinTree() {
+        root = null;
     }
 
     public IntBinTree(Integer content) {
-        this.root = new IntNode(content);
+        this.root = new Node(content);
     }
 
     public IntBinTree(IntBinTree left, Integer content, IntBinTree right) {
-        this.root = new IntNode(content);
-        if (left != null) {
-            root.setLeft(left.root);
-        }
-        if (right != null) {
-            root.setRight(right.root);
+        if (content == null) {
+            root = null;
+        } else {
+            root = new Node(content);
+            root.setLeft(left);
+            root.setRight(right);
         }
     }
 
-    private IntBinTree(IntNode root) {
-        this.root = root;
-    }
+    // private IntBinTree(Node root) {
+    // this.root = root;
+    // }
 
+    // a)
     public boolean isEmpty() {
         return root == null;
     }
 
     public Integer getValue() {
         if (isEmpty()) {
-            return null; // Error
+            return null; // error
         }
         return root.getContent();
     }
 
     public IntBinTree getLeft() {
         if (isEmpty()) {
-            return null; // Error
+            return null; // error
         }
-        return new IntBinTree(root.getLeft());
+        return root.getLeft();
     }
 
     public IntBinTree getRight() {
-        if (this.isEmpty()) {
-            return null; // Error
+        if (isEmpty()) {
+            return null; // error
         }
-        return new IntBinTree(root.getRight());
+        return root.getRight();
     }
 
     public void setLeft(IntBinTree tree) {
-        root.setLeft(tree.root);
+        root.setLeft(tree);
     }
 
     public void setRight(IntBinTree tree) {
-        root.setRight(tree.root);
+        root.setRight(tree);
     }
 
+    // b)
     public Integer[] inorder() {
-        ArrayList<Integer> content = new ArrayList<Integer>();
-        return pirvateinorder(content);
+        if (isEmpty()) {
+            return null;
+        }
+        Integer[] leftArr = new Integer[0];
+        Integer[] rightArr = new Integer[0];
+        if (getLeft() != null) {
+            leftArr = getLeft().inorder();
+        }
+        if (getRight() != null) {
+            rightArr = getRight().inorder();
+        }
+        Integer[] result = new Integer[leftArr.length + 1 + rightArr.length];
+        for (int i = 0; i < leftArr.length; i++) {
+            result[i] = leftArr[i];
+        }
+        result[leftArr.length] = getValue();
+        for (int i = 0; i < rightArr.length; i++) {
+            result[leftArr.length + 1 + i] = rightArr[i];
+        }
+        return result;
     }
 
-    private Integer[] pirvateinorder(ArrayList<Integer> content) {
-        if (!isEmpty()) {
-            getLeft().pirvateinorder(content);
-            content.add(getValue());
-            getRight().pirvateinorder(content);
-            Integer[] n = content.toArray(new Integer[0]);
-            return n;
+    // c)
+    private int fillLastLine(Integer[] values, int cursor) {
+        int newcur = cursor;
+        if (getLeft() != null) {
+            newcur = getLeft().fillLastLine(values, cursor);
+            if (newcur < values.length) {
+                newcur = getRight().fillLastLine(values, newcur);
+            }
+        } else {
+            setLeft(new IntBinTree(values[newcur++]));
+            if (newcur < values.length) {
+                setRight(new IntBinTree(values[newcur++]));
+            }
         }
-        return null;
+        return newcur;
     }
 
     public static IntBinTree createTree(Integer[] values) {
         if (values.length == 0) {
-            IntBinTree tree = new IntBinTree();
-            return tree;
+            return null;
         }
-        IntNode mainroot = new IntNode(values[0]);
-        IntBinTree tree = new IntBinTree(mainroot);
-        tree.root = tree.root.insertLevelOrder(values, mainroot, 0);
-        return tree;
+        IntBinTree res = new IntBinTree(values[0]);
+        int cursor = 1;
+        while (cursor < values.length) {
+            cursor = res.fillLastLine(values, cursor);
+        }
+        return res;
     }
 
+    // d)
     public int countNodes() {
-        int count = this.countInnerNodes() + this.countLeaves();
+        if (isEmpty()) {
+            return 0;
+        }
+        int count = 1;
+        if (getLeft() != null) {
+            count += getLeft().countNodes();
+        }
+        if (getRight() != null) {
+            count += getRight().countNodes();
+        }
         return count;
     }
 
     public int countInnerNodes() {
-        if (root == null) {
+        if (isEmpty()) {
             return 0;
         }
-        Queue<IntNode> queue = new LinkedList<IntNode>();
-        queue.add(root);
-        int count = 0;
-        while (!queue.isEmpty()) {
-            IntNode temp = queue.poll();
-            if (temp.getLeft() != null || temp.getRight() != null) {
-                count++;
-            }
-
-            // Falls vorhanden Kinder des Nodes in die Queue packen
-            if (temp.getLeft() != null) {
-                queue.add(temp.getLeft());
-            }
-
-            if (temp.getRight() != null) {
-                queue.add(temp.getRight());
-            }
+        int count = 1;
+        boolean hasChildren = false;
+        if (getLeft() != null) {
+            count += getLeft().countInnerNodes();
+            hasChildren = true;
         }
-        return count;
+        if (getRight() != null) {
+            count += getRight().countInnerNodes();
+            hasChildren = true;
+        }
+        return hasChildren ? count : 0;
     }
 
     public int countLeaves() {
-        if (root == null) {
+        if (isEmpty()) {
             return 0;
         }
-        Queue<IntNode> queue = new LinkedList<IntNode>();
-        queue.add(root);
         int count = 0;
-        while (!queue.isEmpty()) {
-            IntNode temp = queue.poll();
-            if (temp.getLeft() == null && temp.getRight() == null) {
-                count++;
-            }
-
-            // Falls vorhanden Kinder des Nodes in die Queue packen
-            if (temp.getLeft() != null) {
-                queue.add(temp.getLeft());
-            }
-
-            if (temp.getRight() != null) {
-                queue.add(temp.getRight());
-            }
+        boolean hasChildren = false;
+        if (getLeft() != null) {
+            count += getLeft().countLeaves();
+            hasChildren = true;
         }
-        return count;
-    }
-
-    public int getLeftHeight(IntNode node) {
-        if (node == null) {
-            return 0;
+        if (getRight() != null) {
+            count += getRight().countLeaves();
+            hasChildren = true;
         }
-
-        Queue<IntNode> queue = new LinkedList<IntNode>();
-        queue.add(node);
-        int count = 0;
-
-        while (!queue.isEmpty()) {
-            IntNode temp = queue.poll();
-            if (temp.getLeft() != null || temp.getLeft() == null) {
-                count++;
-            }
-
-            // Falls vorhanden Linke Kinder des Nodes in die Queue packen
-            if (temp.getLeft() != null) {
-                queue.add(temp.getLeft());
-            }
-        }
-        return count;
-    }
-
-    public int getRightHeight(IntNode node) {
-        if (node == null) {
-            return 0;
-        }
-
-        Queue<IntNode> queue = new LinkedList<IntNode>();
-        queue.add(node);
-        int count = 0;
-
-        while (!queue.isEmpty()) {
-            IntNode temp = queue.poll();
-            if (temp.getRight() != null || temp.getRight() == null) {
-                count++;
-            }
-
-            // Falls vorhanden Linke Kinder des Nodes in die Queue packen
-            if (temp.getRight() != null) {
-                queue.add(temp.getRight());
-            }
-        }
-        return count;
+        return hasChildren ? count : 1;
     }
 
     public int getHeight() {
-        if (root == null) {
-            return -1;
+        if (isEmpty()) {
+            return 0;
         }
-        return maxDepth(this.root) + 1;
-    }
-
-    private int maxDepth(IntNode node) {
-        if (node == null) {
-            return -1;
-        } else {
-            int leftDepth = maxDepth(node.getLeft());
-            int rightDepth = maxDepth(node.getRight());
-            if (leftDepth > rightDepth) {
-                return (leftDepth + 1);
-            } else {
-                return (rightDepth + 1);
+        int height = 0;
+        if (getLeft() != null) {
+            height = getLeft().getHeight();
+        }
+        if (getRight() != null) {
+            int rightHeight = getRight().getHeight();
+            if (rightHeight > height) {
+                height = rightHeight;
             }
         }
+        return height + 1;
+    }
+
+    // e)
+    public boolean isPerfect() {
+        if (isEmpty()) {
+            return true;
+        }
+        int height = getHeight();
+        int nodes = countNodes();
+        return (Math.pow(2, height) == (nodes + 1));
     }
 
     public boolean isFull() {
-        if (root == null) {
+        if (isEmpty()) {
             return false;
         }
-        if (this.countNodes() == 2) {
-            return true;
-        }
-
-        Queue<IntNode> queue = new LinkedList<IntNode>();
-        queue.add(root);
-        int count = 0;
-
-        while (!queue.isEmpty()) {
-            IntNode temp = queue.poll();
-            if (temp.getLeft() != null && temp.getRight() == null) {
-                count++;
+        if (getLeft() != null) {
+            if (getRight() != null) {
+                return (getLeft().isFull() && getRight().isFull());
+            } else {
+                return false;
             }
-            if (temp.getLeft() == null && temp.getRight() != null) {
-                count++;
-            }
-
-            // Falls vorhanden, Kinder des Nodes in die Queue packen
-            if (temp.getLeft() != null) {
-                queue.add(temp.getLeft());
-            }
-
-            if (temp.getRight() != null) {
-                queue.add(temp.getRight());
-            }
-        }
-        if (count > 0) {
-            return false;
         } else {
-            return true;
+            return (getRight() == null);
+        }
+    }
+
+    private int[] checkComplete() {
+        if (getLeft() != null) {
+            if (getRight() != null) {
+                int[] minMaxLeft = getLeft().checkComplete();
+                if (minMaxLeft[1] == 0) {
+                    return new int[] { 0, 0 }; // links gescheitert
+                }
+                int[] minMaxRight = getRight().checkComplete();
+                if (minMaxRight[1] == 0) {
+                    return new int[] { 0, 0 }; // rechts gescheitert
+                }
+                int diffMaxLeftMinRight = minMaxLeft[1] - minMaxRight[0];
+                if (diffMaxLeftMinRight == 0) {
+                    if (minMaxLeft[0] < minMaxRight[1])
+                        return new int[] { 0, 0 }; // gescheitert: Delle links
+                    else
+                        return new int[] { minMaxLeft[0] + 1, minMaxLeft[1] + 1 }; // gut: alle gleich
+                } else {
+                    if (diffMaxLeftMinRight > 1) {
+                        return new int[] { 0, 0 }; // gescheitert: Hoehendifferenz zu gross
+                    }
+                    if (minMaxLeft[0] == minMaxLeft[1]) {
+                        // Stufe nicht im linken Subtree
+                        // Stufe hat maximal die Hoehe 1 und ist damit okay
+                        return new int[] { minMaxRight[0] + 1, minMaxLeft[1] + 1 }; // gut: stufe zwischen Minimum
+                                                                                    // rechts und Maximum links
+                    } else {
+                        // Stufe im linken Subtree gefunden, d.h. minLeft == minRight
+                        // es darf weder im Uebergang zum rechten Subtree, noch im rechten Subtree
+                        // selbst eine Stufe geben
+                        if (minMaxRight[0] != minMaxRight[1]) {
+                            return new int[] { 0, 0 }; // gescheitert: auch Stufe rechts
+                        } else {
+                            return new int[] { minMaxLeft[0] + 1, minMaxLeft[1] + 1 }; // gut: gesamter Baum wie linker
+                        } // Baum
+                    }
+                }
+            } else { // rechts: min = max = 0
+                int[] minMaxLeft = getLeft().checkComplete();
+                if (minMaxLeft[1] == 1) { // in diesem Fall maximal zulaessige linke tiefe: 1
+                    return new int[] { 1, 2 };
+                } else { // gescheitert oder zu tief
+                    return new int[] { 0, 0 };
+                }
+            }
+        } else {
+            if (getRight() == null) {
+                return new int[] { 1, 1 }; // Blatt
+            } else { // gescheitert: rechts duerfen nur Kinder sein, wenn auch links Kinder sind
+                return new int[] { 0, 0 };
+            }
         }
     }
 
     public boolean isComplete() {
-        if (root == null) {
+        if (isEmpty()) {
             return true;
         }
-        Queue<IntNode> queue = new LinkedList<>();
-        boolean nonfullnode = false;
-
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            IntNode temp = queue.poll();
-
-            if (temp.getLeft() != null) {
-                if (nonfullnode) {
-                    return false;
-                }
-
-                queue.add(temp.getLeft());
-            } else {
-                nonfullnode = true;
-            }
-
-            if (temp.getRight() != null) {
-                if (nonfullnode) {
-                    return false;
-                }
-
-                queue.add(temp.getRight());
-            } else {
-                nonfullnode = true;
-            }
-
-        }
-        return true;
-    }
-
-    public boolean isPerfect() {
-        if (root == null) {
-            return true;
-        }
-        if (getLeftHeight(this.root) != getRightHeight(this.root)) {
-            return false;
-        }
-        Queue<IntNode> queue = new LinkedList<IntNode>();
-        queue.add(root);
-        boolean leavediscorverd = false;
-
-        while (!queue.isEmpty()) {
-            IntNode temp = queue.poll();
-            if (temp.getLeft() != null && temp.getRight() != null) {
-                if (leavediscorverd)
-                    return false;
-                else {
-                    queue.add(temp.getLeft());
-                    queue.add(temp.getRight());
-                }
-            } else if (temp.getLeft() == null && temp.getRight() == null) {
-                leavediscorverd = true;
-
-            } else if (temp.getLeft() == null || temp.getRight() == null)
-                return false;
-        }
-        return true;
+        int[] minMax = this.checkComplete();
+        return (minMax[1] != 0);
     }
 }
