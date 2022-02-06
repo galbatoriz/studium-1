@@ -5,8 +5,52 @@ import java.util.LinkedList;
 public class Grades {
 
     public static LinkedList<String> transfer(String[][] vips, String[][] studip) {
-        
+        LinkedList<String> error = new LinkedList<String>();
+        int vipszeilen = vips.length;
+        int supidzielen = studip.length;
+        String matrikelnummer;
+        double grade;
+        int intgrade;
+        String strgrade;
+        String vorname;
+        String lastname;
+        String name;
+        String wholename;
+
+        for (int z = 2; z < vips.length; z++) {
+            boolean found = false;
+            matrikelnummer = vips[z][1];
+
+            name = vips[z][0];
+
+           
+
+            for (int j = 1; j < studip.length; j++) {
+
+                if (studip[j][0].contains(matrikelnummer)) {
+                    grade = Double.parseDouble(vips[z][3].replace(",", ".")) * 100;
+                    intgrade = (int) grade;
+
+                    vorname = studip[j][1];
+                    lastname = studip[j][2];
+                    wholename = lastname + ", " + vorname;
+                    
+
+                    if (name.contains(wholename)) {
+                        found = true;
+                        studip[j][3] = String.valueOf(intgrade);
+                    }
+                }
+            }
+            if (!found) {
+                error.add(matrikelnummer);
+            }
+        }
+        return error;
+
     }
+
+    
 
     public static void main(String[] args) {
         String[][] vips = new String[][] {
